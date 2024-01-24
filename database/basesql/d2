@@ -1,0 +1,26 @@
+import sqlite3
+
+conn = sqlite3.connect('car_simulation.db')
+cursor = conn.cursor()
+
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY,
+                    username TEXT NOT NULL,
+                    password TEXT NOT NULL
+                )''')
+
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS car_data (
+                    id INTEGER PRIMARY KEY,
+                    user_id INTEGER NOT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users(id),
+                    car_name TEXT NOT NULL,
+                    max_speed REAL,
+                    acceleration REAL,
+                    friction REAL,
+                    steering_angle REAL
+                )''')
+
+conn.commit()
+conn.close()

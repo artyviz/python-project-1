@@ -1,0 +1,47 @@
+import mysql.connector
+
+
+connection = mysql.connector.connect(
+    host="your_database_host",
+    user="your_database_user",
+    password="your_database_password",
+    database="UserDatabase"
+)
+
+
+cursor = connection.cursor()
+
+
+create_table_query = """
+CREATE TABLE IF NOT EXISTS Users (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Password VARCHAR(100) NOT NULL
+);
+"""
+cursor.execute(create_table_query)
+
+
+insert_user_query = """
+INSERT INTO Users (FirstName, LastName, Email, Password)
+VALUES (%s, %s, %s, %s)
+"""
+user_data = ('name', 'surname', 'user@example.com', 'password123')
+cursor.execute(insert_user_query, user_data)
+
+
+connection.commit()
+
+
+select_users_query = "SELECT * FROM Users"
+cursor.execute(select_users_query)
+users = cursor.fetchall()
+
+
+for user in users:
+    print(user)
+
+cursor.close()
+connection.close()

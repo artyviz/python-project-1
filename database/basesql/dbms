@@ -1,0 +1,25 @@
+import sqlite3
+
+
+def save_simulation_data(speed, position_x, position_y):
+    conn = sqlite3.connect('car_simulation_data.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO CarSimulation (speed, position_x, position_y)
+        VALUES (?, ?, ?)
+    ''', (speed, position_x, position_y))
+
+    conn.commit()
+    conn.close()
+
+def get_simulation_data():
+    conn = sqlite3.connect('car_simulation_data.db')
+    cursor = conn.cursor()
+
+    # Fetch data from the CarSimulation table
+    cursor.execute('SELECT * FROM CarSimulation')
+    data = cursor.fetchall()
+
+    conn.close()
+    return data

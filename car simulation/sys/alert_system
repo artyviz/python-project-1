@@ -1,0 +1,11 @@
+# alert_system.py
+
+class AlertSystem:
+    def __init__(self):
+        pass
+
+    def trigger_alert(self):
+        print("Collision detected! Alerting nearby hospitals...")
+
+    def notify_collision(self):
+        print("Alert: Collision occurred!")

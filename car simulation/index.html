@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Control Panel</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, #0F2027, #203A43, #2C5364);
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #141e30;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        #loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #content {
+            display: none;
+        }
+
+        #car-container {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            margin: auto;
+            overflow: hidden;
+            border: 2px solid white;
+            margin-top: 20px;
+        }
+
+        #car {
+            width: 30px;
+            height: 20px;
+            background-color: blue;
+            position: absolute;
+            top: 140px;
+            left: 185px;
+            animation: moveAnimation 2s infinite alternate;
+        }
+
+        @keyframes moveAnimation {
+            to {
+                top: 240px;
+            }
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading-screen">
+    <div id="loading-spinner"></div>
+</div>
+
+<div id="content">
+    <div class="container mt-5">
+        <h1 class="mb-4">Combined Control Panel</h1>
+
+
+        <div id="car-container">
+            <div id="car"></div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <label for="speedRange">Speed:</label>
+                <input type="range" class="custom-range" id="speedRange" min="0" max="100" value="0">
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <button class="btn btn-success btn-block" onclick="moveForward()">Move Forward</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-warning btn-block" onclick="moveBackward()">Move Backward</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-danger btn-block" onclick="stop()">Stop</button>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <label>Status: <span id="status">Stopped</span></label>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <label>Ultrasonic Sensor: <span id="ultrasonicSensor">0 cm</span></label>
+            </div>
+            <div class="col-md-4">
+                <label>Infrared Sensor: <span id="infraredSensor">Not Detected</span></label>
+            </div>
+            <div class="col-md-4">
+                <label>LIDAR Sensor: <span id="lidarSensor">0 cm</span></label>
+            </div>
+        </div>
+    </div>
+
+ 
+    <div class="alert-container mt-3">
+       
+        <div class="alert alert-danger alert-dismissible fade" role="alert">
+            <strong>Alert!</strong> Car collision detected!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(function() {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+    }, 3000);
+
+    function moveForward() {
+        var car = document.getElementById('car');
+        var statusSpan = document.getElementById('status');
+        var alertContainer = document.querySelector('.alert-container');
+
+      
+        car.style.top = parseInt(car.style.top) - 20 + 'px';
+
+      
+        statusSpan.innerText = 'Moving forward';
+
+        
+        if (isCollision(car)) {
+            showAlert(alertContainer);
+        }
+    }
+
+    function moveBackward() {
+        var car = document.getElementById('car');
+        var statusSpan = document.getElementById('status');
+        var alertContainer = document.querySelector('.alert-container');
+
+        
+        car.style.top = parseInt(car.style.top) + 20 + 'px';
+
+        
+        statusSpan.innerText = 'Moving backward';
+
+        
+        if (isCollision(car)) {
+            showAlert(alertContainer);
+        }
+    }
+
+    function stop() {
+        var statusSpan = document.getElementById('status');
+        statusSpan.innerText = 'Stopped';
+    }
+
+    function isCollision(car) {
+        var carRect = car.getBoundingClientRect();
+        var containerRect = document.getElementById('car-container').getBoundingClientRect();
+
+       
+        return (
+            carRect.left < containerRect.left ||
+            carRect.right > containerRect.right ||
+            carRect.top < containerRect.top ||
+            carRect.bottom > containerRect.bottom
+        );
+    }
+
+    function showAlert(alertContainer) {
+
+        alertContainer.querySelector('.alert').classList.add('show');
+
+
+        setTimeout(function() {
+            alertContainer.querySelector('.alert').classList.remove('show');
+        }, 5000);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Car Simulation Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="simulation-container">
+    <canvas id="simulation-canvas" width="600" height="300"></canvas>
+    <div class="controls">
+      <button onclick="startEngine()">Start Engine</button>
+      <button onclick="stopEngine()">Stop Engine</button>
+      <button onclick="accelerate()">Accelerate</button>
+      <button onclick="brake()">Brake</button>
+      <button onclick="steer('left')">Left</button>
+      <button onclick="steer('right')">Right</button>
+      <button onclick="releaseSteer()">Release Steering</button>
+      <button onclick="reverse()">Reverse</button>
+    </div>
+    <div class="status">
+      <p>Status: Stopped, No Collision</p>
+      <p class="warning">No collision warning</p>
+      <p class="gps">GPS Coordinates: (100, 180)</p>
+    </div>
+    <input type="range" min="0" max="10" step="0.1" value="0" oninput="setSpeed(this.value)">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

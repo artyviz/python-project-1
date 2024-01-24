@@ -1,0 +1,48 @@
+import pygame
+from pygame.locals import *
+
+
+pygame.init()
+
+
+WIDTH, HEIGHT = 800, 600
+window = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption('3D Car Simulation')
+
+clock = pygame.time.Clock()
+
+
+car_width, car_height = 50, 30
+car_x, car_y = WIDTH // 2, HEIGHT // 2
+car_speed = 5
+
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+
+running = True
+while running:
+    window.fill(WHITE)  
+
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
+
+    keys = pygame.key.get_pressed()
+    if keys[K_UP]:
+        car_y -= car_speed
+    if keys[K_DOWN]:
+        car_y += car_speed
+    if keys[K_LEFT]:
+        car_x -= car_speed
+    if keys[K_RIGHT]:
+        car_x += car_speed
+
+    car_x = max(0, min(WIDTH - car_width, car_x))
+    car_y = max(0, min(HEIGHT - car_height, car_y))
+
+    pygame.draw.rect(window, BLUE, (car_x, car_y, car_width, car_height))
+
+    pygame.display.update()
+    clock.tick(60)  
+
+pygame.quit()

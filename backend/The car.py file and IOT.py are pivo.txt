@@ -1,0 +1,8 @@
+The car.py file and IOT.py are pivotal components functioning as the backend infrastructure. When the webpage server is invoked, it triggers the simulation. The backend files, acting as intermediaries, facilitate interactions between the simulation and the user through AWS Cloud services. This setup enables automation of the car's functions, orchestrating seamless communication between the simulation, user interface, and the physical vehicle. By leveraging these backend files, the system orchestrates a cohesive experience, merging user interaction with the simulated and automated functionalities of the car
+
+The car.py file and IOT.py are pivotal components functioning as the backend infrastructure. When the webpage server is invoked, it triggers the simulation. The backend files, acting as intermediaries, facilitate interactions between the simulation and the user through AWS Cloud services. This setup enables automation of the car's functions, orchestrating seamless communication between the simulation, user interface, and the physical vehicle. By leveraging these backend files, the system orchestrates a cohesive experience, merging user interaction with the simulated and automated functionalities of the car.
+
+
+
+The car.py file and IOT.py w=file are being treated as the backend as when the webpage server is being called and the simulation is being trigerred therefore the backend file will interact with the simualtion as well as the user via asw cloud and hence the car will be automated 
+
